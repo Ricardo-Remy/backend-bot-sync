@@ -109,7 +109,7 @@ module.exports = async () => {
         // Wait for the block to be mined
         if (getReceiptPongEvent === null) await timer(10000);
         if (getReceiptPongEvent.status === true)
-          console.log(`Transaction-${hashIndex}-mined`);
+          console.log(`Pong event sent with missing hash: ${hashIndex}`);
 
         // Verify transactionr receipt validity before delay the next call to 5 seconds
       }

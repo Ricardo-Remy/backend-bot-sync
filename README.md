@@ -1,6 +1,7 @@
 # PingPongBot
 
-Small project that listen to smart contracts ping events on 0x7d3a625977bfd7445466439e60c495bdc2855367 and submit corresponding pong events to owner's smart contract 0x792f9bc9075F148633BDfE897524c83Db8934C4b.
+Small project that listen to smart contracts ping events on 0x7d3a625977bfd7445466439e60c495bdc2855367 and submit corresponding pong events to the same contract. The bot started to run at block 32351703.
+You can see the contract creation for the start block number here https://kovan.etherscan.io/address/0xE119b11A240758deEceaD6Aa0a42C70419d919Ff.
 
 ## Acceptance Criterias
 
@@ -38,23 +39,22 @@ npm run logs
 Below you will find the deliverables according to the acceptance criterias:
 
 ```
-> contract address: 0x792f9bc9075F148633BDfE897524c83Db8934C4b
-> startBlock: 31980958
+> contract address of deployed bot: 0xE119b11A240758deEceaD6Aa0a42C70419d919Ff
+> contract address of target pong events: 0x7D3a625977bFD7445466439E60C495bdc2855367
+> startBlock: 32351703
 ```
 
 ## Env variables
 
-Replace the first 4 variables with your credentials
+Replace the first 3 variables with your credentials
 
 ```
 PROJECT_ID=YOUR_PROJECT_ID
 MNEMONIC=YOUR_SECRET
 PROJECT_OWNER_ADDRESS=YOUR_ETH_ADDRESS
-ETHERSCAN_API=YOUR_ETHERSCAN_API_ENDPOINT
 KLEROS_CONTRACT_ADDRESS=0x7D3a625977bFD7445466439E60C495bdc2855367
-CONTRACT_ADDRESS=0x792f9bc9075F148633BDfE897524c83Db8934C4b
 TOPICS=0xca6e822df923f741dfe968d15d80a18abd25bd1e748bcb9ad81fea5bbb7386af
-INITIAL_CONTRACT_BLOCK=31980958
+INITIAL_CONTRACT_BLOCK=32351703
 ```
 
 ## Licence - MIT
