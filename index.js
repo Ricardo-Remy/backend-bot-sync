@@ -8,5 +8,5 @@ const run = async () => {
   }
 };
 
-// Run Bot every 2min / 30sec
+// Run Bot every min
 setInterval(() => run(), 60000);

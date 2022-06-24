@@ -66,8 +66,6 @@ module.exports = async () => {
 
     // Get lastBlocknumber to save in cache or fallback to contract deployed blockNumber
 
-    // Get the block from the deployed contract till the last pong event
-
     const lastEventBlockNumber = !getPastEventsPong.length
       ? initialContractBlock
       : pongFilteredPastEvents[pongFilteredPastEvents.length - 1].blockNumber;
@@ -109,7 +107,7 @@ module.exports = async () => {
         // Wait for the block to be mined
         if (getReceiptPongEvent === null) await timer(10000);
         if (getReceiptPongEvent.status === true)
-          console.log(`Pong event sent with missing hash: ${hashIndex}`);
+          console.log(`Pong event submitted with missing hash: ${hashIndex}`);
 
         // Verify transactionr receipt validity before delay the next call to 5 seconds
       }
