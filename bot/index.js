@@ -11,9 +11,7 @@ const providerUrl = new HDWalletProvider(
 );
 
 const NodeCache = require("node-cache");
-const myCache = new NodeCache({ stdTTL: 600 });
-
-const previousTransactions = require("../utils/etherscan.js");
+const myCache = new NodeCache({ stdTTL: 300 });
 
 module.exports = async () => {
   // Instantiate web3 in new variable
@@ -22,7 +20,7 @@ module.exports = async () => {
   // Instantiate Contract
   const contract = new web3.eth.Contract(
     MyContract.abi,
-    process.env.CONTRACT_ADDRESS
+    process.env.KLEROS_CONTRACT_ADDRESS
   );
 
   try {
@@ -38,38 +36,41 @@ module.exports = async () => {
         ? initialContractBlock
         : valueCachedBlock.lastEventBlockNumber;
 
-    // Get kleros previous transactions
-    const klerosPreviousTransactions = await previousTransactions(
-      process.env.KLEROS_CONTRACT_ADDRESS,
-      cachedBlock
-    );
-
-    // Filter past transactionHash
-    const getKlerosTransactionHash = klerosPreviousTransactions.map(
-      (el) => el.hash
-    );
-
-    // Get past events "Pong"
-    const getPastEvents = await contract.getPastEvents("Pong", {
+    // Get past events "Ping"
+    const getPastEventsPing = await contract.getPastEvents("Ping", {
       fromBlock: cachedBlock,
     });
 
-    // Get the raw data event hash from Ping transactions
-    const pongFilteredPastEvents = getPastEvents.map((el) => el.raw.data);
+    // Get past events "Pong"
+    const getPastEventsPong = await contract.getPastEvents("Pong", {
+      fromBlock: cachedBlock,
+    });
 
-    // Compare pong's last event raw data to check missing events from ping
-    const findMissingHash = getKlerosTransactionHash.filter(
-      (el) => !pongFilteredPastEvents.includes(el)
+    // Get the transaction hash of ping past events
+    const pingFilteredPastEvents = getPastEventsPing.map(
+      (el) => el.transactionHash
     );
 
-    // Remove possible duplicates
-    const sanitizedMissingHash = [...new Set(findMissingHash)];
+    // Get the raw data event hash from Pong transactions
+    const pongFilteredPastEvents = getPastEventsPong.map((el) => el.raw.data);
+
+    // Verify pings missing hash in past pongs events
+    const sanitizedMissingHash = [
+      ...new Set(
+        pingFilteredPastEvents.filter(
+          (el) => !pongFilteredPastEvents.includes(el)
+        )
+      ),
+    ];
     console.log("sanitizedMissingHash", sanitizedMissingHash);
 
     // Get lastBlocknumber to save in cache or fallback to contract deployed blockNumber
-    const lastEventBlockNumber = !getPastEvents.length
+
+    // Get the block from the deployed contract till the last pong event
+
+    const lastEventBlockNumber = !getPastEventsPong.length
       ? initialContractBlock
-      : getPastEvents[getPastEvents.length - 1].blockNumber;
+      : pongFilteredPastEvents[pongFilteredPastEvents.length - 1].blockNumber;
 
     // save in cache
     myCache.set("block", { lastEventBlockNumber }, 300);

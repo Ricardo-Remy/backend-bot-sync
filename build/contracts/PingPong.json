@@ -2414,8 +2414,8 @@
     "42": {
       "events": {},
       "links": {},
-      "address": "0x792f9bc9075F148633BDfE897524c83Db8934C4b",
-      "transactionHash": "0x5faf58d86a6ec128e64867824b576eb6cb9637791b36fe1e949fc5a7d942811f"
+      "address": "0xf568F36185b0Be40E95BedE79516189f422792c0",
+      "transactionHash": "0xd240db89ca022a20c2b4d0854dbcd8775fcdd0204a1d905be60e6cdcf5674320"
     },
     "5777": {
       "events": {},
@@ -2425,7 +2425,7 @@
     }
   },
   "schemaVersion": "3.4.4",
-  "updatedAt": "2022-06-03T10:50:21.387Z",
+  "updatedAt": "2022-06-24T09:55:10.977Z",
   "networkType": "ethereum",
   "devdoc": {
     "details": "Exercise on syncing and transaction submission.",
